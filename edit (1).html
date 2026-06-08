@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit — Cozy Outdoor Living</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cream:#f8f4ef;--warm:#fff8f0;--sage:#7a9268;--terra:#b85c38;--bark:#4a3728;--muted:#8a7060;--border:rgba(74,55,40,0.15);--green:#4a7a5a;--red:#b83838}
+body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--bark);min-height:100vh}
+.page{max-width:480px;margin:0 auto;background:var(--warm);min-height:100vh}
+#lock-screen{position:fixed;inset:0;background:var(--warm);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:999;padding:40px}
+.lock-icon{font-size:40px}.lock-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--bark);text-align:center}
+.lock-sub{font-size:12px;color:var(--muted);text-align:center}
+.lock-input{width:100%;max-width:300px;padding:14px 18px;border:1.5px solid var(--border);border-radius:2px;background:white;font-size:16px;font-family:'Jost',sans-serif;color:var(--bark);outline:none;text-align:center;letter-spacing:0.2em}
+.lock-input:focus{border-color:var(--sage)}
+.lock-btn{width:100%;max-width:300px;padding:14px;background:var(--terra);color:white;border:none;font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Jost',sans-serif;transition:background 0.2s}
+.lock-btn:hover{background:#a04e2e}
+.lock-error{color:var(--red);font-size:12px;display:none}
+.edit-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--warm);z-index:100}
+.edit-logo{font-family:'Playfair Display',serif;font-size:14px;color:var(--bark)}
+.edit-logo span{color:var(--terra);font-style:italic}
+.preview-btn{padding:7px 14px;background:transparent;border:1.5px solid var(--sage);color:var(--sage);font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Jost',sans-serif;text-decoration:none;transition:all 0.2s}
+.preview-btn:hover{background:var(--sage);color:white}
+.editor{padding:20px 16px 80px;display:none}
+.section-card{background:white;border:1px solid var(--border);border-radius:4px;margin-bottom:16px;overflow:hidden}
+.section-head{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;background:white;transition:background 0.2s}
+.section-head:hover{background:#fdf9f5}
+.section-head-left{display:flex;align-items:center;gap:10px}
+.section-icon{font-size:18px}
+.section-title{font-size:13px;font-weight:500;letter-spacing:0.04em;color:var(--bark)}
+.section-chevron{font-size:12px;color:var(--muted);transition:transform 0.2s}
+.section-body{padding:0 16px 16px;display:none;border-top:1px solid var(--border)}
+.section-body.open{display:block}
+.section-chevron.open{transform:rotate(180deg)}
+.field{margin-top:14px}
+.field label{display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:500}
+.field input,.field textarea,.field select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:2px;background:var(--cream);font-size:13px;font-family:'Jost',sans-serif;color:var(--bark);outline:none;transition:border-color 0.2s}
+.field input:focus,.field textarea:focus{border-color:var(--sage);background:white}
+.field textarea{resize:vertical;min-height:80px;line-height:1.6}
+
+/* Image preview */
+.img-preview-wrap{margin-top:8px;position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--border);background:var(--cream);display:none}
+.img-preview-wrap.show{display:block}
+.img-preview{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+.img-preview-label{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:rgba(44,31,20,0.6);color:white;font-size:10px;letter-spacing:0.08em;text-transform:uppercase}
+.img-error{margin-top:6px;font-size:11px;color:var(--red);display:none}
+
+.product-row{background:var(--cream);border:1px solid var(--border);border-radius:4px;padding:12px;margin-top:10px;position:relative}
+.product-row-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.product-num{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+.remove-btn{background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0;line-height:1;opacity:0.6;transition:opacity 0.2s}
+.remove-btn:hover{opacity:1}
+.product-row .field{margin-top:8px}
+.add-btn{width:100%;margin-top:12px;padding:10px;background:transparent;border:1.5px dashed var(--border);border-radius:2px;color:var(--muted);font-size:12px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.add-btn:hover{border-color:var(--sage);color:var(--sage);background:#f5faf3}
+.emoji-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.emoji-opt{width:36px;height:36px;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.emoji-opt:hover,.emoji-opt.selected{border-color:var(--sage);background:#f0f7ec}
+.save-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 16px;background:var(--warm);border-top:1px solid var(--border);display:flex;gap:10px;z-index:200}
+.save-btn{flex:1;padding:14px;background:var(--green);color:white;border:none;font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Jost',sans-serif;transition:background 0.2s}
+.save-btn:hover{background:#3a6248}
+.reset-btn{padding:14px 18px;background:transparent;border:1.5px solid var(--border);color:var(--muted);font-size:12px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Jost',sans-serif;transition:all 0.2s}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--green);color:white;padding:10px 20px;border-radius:20px;font-size:12px;font-weight:500;letter-spacing:0.06em;opacity:0;transition:all 0.3s;z-index:300;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.copy-box{background:#f0f7ec;border:1px solid #b5d4aa;border-radius:4px;padding:14px;margin-top:16px;font-size:12px;color:var(--green);line-height:1.7}
+.code-output{width:100%;margin-top:10px;padding:10px;background:#1e1e1e;color:#d4edbc;font-family:monospace;font-size:11px;line-height:1.6;border-radius:4px;resize:vertical;min-height:120px;border:none;outline:none}
+.copy-code-btn{margin-top:8px;width:100%;padding:10px;background:var(--bark);color:white;border:none;font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Jost',sans-serif;transition:background 0.2s}
+.copy-code-btn:hover{background:#6a5040}
+.hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div id="lock-screen">
+  <div class="lock-icon">🔒</div>
+  <div class="lock-title">Admin Access</div>
+  <div class="lock-sub">Enter password to edit your page</div>
+  <input type="password" class="lock-input" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button class="lock-btn" onclick="checkPw()">Unlock Editor</button>
+  <div class="lock-error" id="pw-error">Wrong password. Try again.</div>
+</div>
+
+<div class="page" id="main-editor" style="display:none">
+  <header class="edit-header">
+    <div class="edit-logo">Edit — Cozy Outdoor <span>Living</span></div>
+    <a href="index.html" class="preview-btn" target="_blank">Preview →</a>
+  </header>
+
+  <div class="editor" id="editor-body">
+
+    <!-- HERO -->
+    <div class="section-card">
+      <div class="section-head" onclick="toggle(this)">
+        <div class="section-head-left"><span class="section-icon">🖼️</span><span class="section-title">Hero Pin — Main Image & Title</span></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body open">
+        <div class="field">
+          <label>Pin Image URL (Pinterest, Google, any direct image link)</label>
+          <input type="url" id="hero-img" placeholder="https://i.pinimg.com/736x/..." oninput="previewImg(this,'hero-preview','hero-img-error')">
+          <div class="hint">💡 Pinterest image: Right click → Copy image address → Paste here</div>
+          <div class="img-error" id="hero-img-error">❌ Image could not load. Check the URL.</div>
+          <div class="img-preview-wrap" id="hero-preview">
+            <img class="img-preview" id="hero-preview-img" src="" alt="Preview" onerror="imgError('hero-preview','hero-img-error')">
+            <div class="img-preview-label">✅ Image Preview</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pin Title (shown on image)</label>
+          <input type="text" id="hero-title" placeholder="Relaxing Balcony Lounge Setup for Cozy Mornings">
+        </div>
+        <div class="field">
+          <label>Badge Text</label>
+          <input type="text" id="hero-badge" placeholder="🔥 Trending Now">
+        </div>
+        <div class="field">
+          <label>Hero Amazon Affiliate Link</label>
+          <input type="url" id="hero-link" placeholder="https://amzn.to/xxxxx">
+        </div>
+        <div class="field">
+          <label>Fallback Emoji (shown if image URL is empty)</label>
+          <div class="emoji-row" id="hero-emoji-row">
+            <div class="emoji-opt selected" onclick="selectEmoji(this,'🌿')">🌿</div>
+            <div class="emoji-opt" onclick="selectEmoji(this,'🪑')">🪑</div>
+            <div class="emoji-opt" onclick="selectEmoji(this,'🌸')">🌸</div>
+            <div class="emoji-opt" onclick="selectEmoji(this,'☀️')">☀️</div>
+            <div class="emoji-opt" onclick="selectEmoji(this,'🔥')">🔥</div>
+            <div class="emoji-opt" onclick="selectEmoji(this,'🌙')">🌙</div>
+            <div class="emoji-opt" onclick="selectEmoji(this,'🌳')">🌳</div>
+            <div class="emoji-opt" onclick="selectEmoji(this,'⭐')">⭐</div>
+          </div>
+          <input type="hidden" id="hero-emoji" value="🌿">
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="section-card">
+      <div class="section-head" onclick="toggle(this)">
+        <div class="section-head-left"><span class="section-icon">🛍️</span><span class="section-title">Shop The Look — Products</span></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body" id="products-body"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="section-card">
+      <div class="section-head" onclick="toggle(this)">
+        <div class="section-head-left"><span class="section-icon">🔴</span><span class="section-title">Visit Site Button</span></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="field"><label>Button Text</label><input type="text" id="cta-text" placeholder="Shop This Look on Amazon"></div>
+        <div class="field"><label>Button Amazon Link</label><input type="url" id="cta-link" placeholder="https://amzn.to/xxxxx"></div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="section-card">
+      <div class="section-head" onclick="toggle(this)">
+        <div class="section-head-left"><span class="section-icon">📝</span><span class="section-title">Description</span></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="field"><label>Title</label><input type="text" id="desc-title" placeholder="Relaxing Balcony Setup"></div>
+        <div class="field"><label>Description Text</label><textarea id="desc-text" placeholder="Does your balcony feel empty..."></textarea></div>
+      </div>
+    </div>
+
+    <!-- RELATED -->
+    <div class="section-card">
+      <div class="section-head" onclick="toggle(this)">
+        <div class="section-head-left"><span class="section-icon">🗂️</span><span class="section-title">Related Pins (4 cards)</span></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body" id="related-body"></div>
+    </div>
+
+    <!-- GENERATE -->
+    <div class="section-card">
+      <div class="section-head" onclick="toggle(this)">
+        <div class="section-head-left"><span class="section-icon">💾</span><span class="section-title">Generate Code for GitHub</span></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="copy-box">
+          <strong>Steps to update live page:</strong><br>
+          1. Click Generate Code<br>
+          2. Copy the code<br>
+          3. GitHub → index.html → ✏️ Edit → Select All → Paste → Commit
+        </div>
+        <button class="copy-code-btn" onclick="generateCode()" style="margin-top:12px">⚡ Generate Code</button>
+        <textarea class="code-output" id="code-output" readonly placeholder="Code will appear here..."></textarea>
+        <button class="copy-code-btn" onclick="copyCode()">📋 Copy to Clipboard</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="save-bar">
+    <button class="reset-btn" onclick="resetAll()">Reset</button>
+    <button class="save-btn" onclick="saveAll()">💾 Save Changes</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PASSWORD = 'cozy2024';
+
+function checkPw() {
+  if (document.getElementById('pw-input').value === PASSWORD) {
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('main-editor').style.display = 'block';
+    document.getElementById('editor-body').style.display = 'block';
+    initEditor();
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+    document.getElementById('pw-input').style.borderColor = '#b83838';
+  }
+}
+
+const DEFAULTS = {
+  heroImg: '',
+  heroTitle: 'Relaxing Balcony Lounge Setup for Cozy Mornings',
+  heroBadge: '🔥 Trending Now',
+  heroLink: 'https://www.amazon.com/s?k=rattan+balcony+lounge+chair+outdoor+cozy&tag=cozyoutdoorl-20',
+  heroEmoji: '🌿',
+  ctaText: 'Shop This Look on Amazon',
+  ctaLink: 'https://www.amazon.com/s?k=balcony+lounge+setup+outdoor+cozy&tag=cozyoutdoorl-20',
+  descTitle: 'Relaxing Balcony Lounge Setup for Cozy Mornings',
+  descText: 'Does your balcony feel empty every time you look at it? This complete setup transforms any small outdoor space into a cozy retreat — all products linked on Amazon, starting at $24.',
+  products: [
+    {name:'Rattan Lounge Chair',price:'$59',link:'https://www.amazon.com/s?k=rattan+lounge+chair+outdoor&tag=cozyoutdoorl-20',emoji:'🪑',bg:'linear-gradient(135deg,#ede6dc,#ddd3c5)'},
+    {name:'Outdoor String Lights',price:'$24',link:'https://www.amazon.com/s?k=outdoor+string+lights&tag=cozyoutdoorl-20',emoji:'💡',bg:'linear-gradient(135deg,#dde5d8,#ccd8c4)'},
+    {name:'Jute Outdoor Rug',price:'$38',link:'https://www.amazon.com/s?k=jute+outdoor+rug&tag=cozyoutdoorl-20',emoji:'🏡',bg:'linear-gradient(135deg,#e4d5c0,#d0bfa8)'},
+    {name:'Rattan Side Table',price:'$32',link:'https://www.amazon.com/s?k=rattan+side+table+outdoor&tag=cozyoutdoorl-20',emoji:'🪴',bg:'linear-gradient(135deg,#dde0d4,#c8ccbc)'}
+  ],
+  related: [
+    {name:'Backyard Fire Pit Setup',link:'https://www.amazon.com/s?k=backyard+fire+pit&tag=cozyoutdoorl-20',emoji:'🔥',bg:'linear-gradient(135deg,#c4714a,#8a4a28)'},
+    {name:'Garden Lighting Ideas',link:'https://www.amazon.com/s?k=solar+garden+lights&tag=cozyoutdoorl-20',emoji:'🌟',bg:'linear-gradient(135deg,#8a9e7a,#4a6038)'},
+    {name:'Small Patio Bistro Set',link:'https://www.amazon.com/s?k=small+patio+bistro+set&tag=cozyoutdoorl-20',emoji:'☕',bg:'linear-gradient(135deg,#b09070,#7a6048)'},
+    {name:'Outdoor Rugs & Pillows',link:'https://www.amazon.com/s?k=outdoor+rug+patio&tag=cozyoutdoorl-20',emoji:'🏡',bg:'linear-gradient(135deg,#9aac8a,#6a8058)'}
+  ]
+};
+
+let data = JSON.parse(JSON.stringify(DEFAULTS));
+
+function initEditor() {
+  const saved = localStorage.getItem('cozy-page-data');
+  if (saved) { try { data = JSON.parse(saved); } catch(e) {} }
+  loadFields();
+}
+
+function loadFields() {
+  document.getElementById('hero-img').value = data.heroImg || '';
+  document.getElementById('hero-title').value = data.heroTitle || '';
+  document.getElementById('hero-badge').value = data.heroBadge || '';
+  document.getElementById('hero-link').value = data.heroLink || '';
+  document.getElementById('hero-emoji').value = data.heroEmoji || '🌿';
+  document.getElementById('cta-text').value = data.ctaText || '';
+  document.getElementById('cta-link').value = data.ctaLink || '';
+  document.getElementById('desc-title').value = data.descTitle || '';
+  document.getElementById('desc-text').value = data.descText || '';
+  if (data.heroImg) previewImg(document.getElementById('hero-img'), 'hero-preview', 'hero-img-error');
+  renderProducts();
+  renderRelated();
+}
+
+// Image preview
+function previewImg(input, previewId, errorId) {
+  const url = input.value.trim();
+  const wrap = document.getElementById(previewId);
+  const img = document.getElementById(previewId + '-img');
+  const err = document.getElementById(errorId);
+  if (!url) { wrap.classList.remove('show'); err.style.display = 'none'; return; }
+  img.src = url;
+  wrap.classList.add('show');
+  err.style.display = 'none';
+}
+
+function imgError(previewId, errorId) {
+  document.getElementById(previewId).classList.remove('show');
+  document.getElementById(errorId).style.display = 'block';
+}
+
+const EMOJIS = ['🪑','💡','🏡','🪴','🔥','🌟','☕','🌿','🌊','⭐','🎋','🌺'];
+const COLORS = [
+  'linear-gradient(135deg,#ede6dc,#ddd3c5)',
+  'linear-gradient(135deg,#dde5d8,#ccd8c4)',
+  'linear-gradient(135deg,#e4d5c0,#d0bfa8)',
+  'linear-gradient(135deg,#dde0d4,#c8ccbc)',
+  'linear-gradient(135deg,#c4714a,#8a4a28)',
+  'linear-gradient(135deg,#8a9e7a,#4a6038)'
+];
+
+function renderProducts() {
+  const body = document.getElementById('products-body');
+  body.innerHTML = '';
+  data.products.forEach((p, i) => {
+    body.innerHTML += `
+    <div class="product-row" id="pr-${i}">
+      <div class="product-row-header">
+        <span class="product-num">Product ${i+1}</span>
+        <button class="remove-btn" onclick="removeProduct(${i})">×</button>
+      </div>
+      <div class="field"><label>Product Name</label>
+        <input type="text" id="pname-${i}" value="${p.name||''}" placeholder="Rattan Lounge Chair">
+      </div>
+      <div class="field"><label>Price</label>
+        <input type="text" id="pprice-${i}" value="${p.price||''}" placeholder="$59">
+      </div>
+      <div class="field"><label>Amazon Affiliate Link</label>
+        <input type="url" id="plink-${i}" value="${p.link||''}" placeholder="https://amzn.to/xxxxx">
+      </div>
+      <div class="field"><label>Product Image URL (optional)</label>
+        <input type="url" id="pimg-${i}" value="${p.img||''}" placeholder="https://i.pinimg.com/736x/..." oninput="previewImg(this,'ppreview-${i}','perr-${i}')">
+        <div class="img-error" id="perr-${i}">❌ Image not loading</div>
+        <div class="img-preview-wrap" id="ppreview-${i}" style="aspect-ratio:1">
+          <img class="img-preview" id="ppreview-${i}-img" src="${p.img||''}" style="aspect-ratio:1" onerror="imgError('ppreview-${i}','perr-${i}')">
+          <div class="img-preview-label">✅ Preview</div>
+        </div>
+      </div>
+      <div class="field"><label>Fallback Emoji (if no image)</label>
+        <div class="emoji-row">${EMOJIS.map(e=>`<div class="emoji-opt${p.emoji===e?' selected':''}" onclick="selectProductEmoji(${i},this,'${e}')">${e}</div>`).join('')}</div>
+        <input type="hidden" id="pemoji-${i}" value="${p.emoji||'🪑'}">
+      </div>
+    </div>`;
+    if (p.img) {
+      setTimeout(() => {
+        const w = document.getElementById(`ppreview-${i}`);
+        if (w) w.classList.add('show');
+      }, 100);
+    }
+  });
+  if (data.products.length < 4) {
+    body.innerHTML += `<button class="add-btn" onclick="addProduct()">＋ Add Product</button>`;
+  }
+}
+
+function addProduct() {
+  data.products.push({name:'',price:'$00',link:'',img:'',emoji:'🌿',bg:COLORS[data.products.length%COLORS.length]});
+  renderProducts();
+}
+
+function removeProduct(i) {
+  if (data.products.length <= 1) { showToast('❌ Need at least 1 product'); return; }
+  data.products.splice(i, 1);
+  renderProducts();
+}
+
+function selectProductEmoji(idx, el, emoji) {
+  document.querySelectorAll(`#pr-${idx} .emoji-opt`).forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(`pemoji-${idx}`).value = emoji;
+}
+
+function renderRelated() {
+  const body = document.getElementById('related-body');
+  body.innerHTML = '';
+  data.related.forEach((r, i) => {
+    body.innerHTML += `
+    <div class="product-row">
+      <div class="product-row-header"><span class="product-num">Related Pin ${i+1}</span></div>
+      <div class="field"><label>Title</label>
+        <input type="text" id="rname-${i}" value="${r.name||''}" placeholder="Backyard Fire Pit Setup">
+      </div>
+      <div class="field"><label>Amazon Link</label>
+        <input type="url" id="rlink-${i}" value="${r.link||''}" placeholder="https://amzn.to/xxxxx">
+      </div>
+      <div class="field"><label>Image URL (optional)</label>
+        <input type="url" id="rimg-${i}" value="${r.img||''}" placeholder="https://i.pinimg.com/736x/..." oninput="previewImg(this,'rpreview-${i}','rerr-${i}')">
+        <div class="img-error" id="rerr-${i}">❌ Image not loading</div>
+        <div class="img-preview-wrap" id="rpreview-${i}">
+          <img class="img-preview" id="rpreview-${i}-img" src="${r.img||''}" onerror="imgError('rpreview-${i}','rerr-${i}')">
+          <div class="img-preview-label">✅ Preview</div>
+        </div>
+      </div>
+      <div class="field"><label>Fallback Emoji</label>
+        <div class="emoji-row">${EMOJIS.map(e=>`<div class="emoji-opt${r.emoji===e?' selected':''}" onclick="selectRelEmoji(${i},this,'${e}')">${e}</div>`).join('')}</div>
+        <input type="hidden" id="remoji-${i}" value="${r.emoji||'🌿'}">
+      </div>
+    </div>`;
+    if (r.img) {
+      setTimeout(() => {
+        const w = document.getElementById(`rpreview-${i}`);
+        if (w) w.classList.add('show');
+      }, 100);
+    }
+  });
+}
+
+function selectRelEmoji(idx, el, emoji) {
+  const rows = document.querySelectorAll('#related-body .product-row');
+  if (rows[idx]) rows[idx].querySelectorAll('.emoji-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(`remoji-${idx}`).value = emoji;
+}
+
+function collectData() {
+  data.heroImg = document.getElementById('hero-img').value.trim();
+  data.heroTitle = document.getElementById('hero-title').value;
+  data.heroBadge = document.getElementById('hero-badge').value;
+  data.heroLink = document.getElementById('hero-link').value;
+  data.heroEmoji = document.getElementById('hero-emoji').value;
+  data.ctaText = document.getElementById('cta-text').value;
+  data.ctaLink = document.getElementById('cta-link').value;
+  data.descTitle = document.getElementById('desc-title').value;
+  data.descText = document.getElementById('desc-text').value;
+  data.products = data.products.map((p,i) => ({
+    name: document.getElementById(`pname-${i}`)?.value || p.name,
+    price: document.getElementById(`pprice-${i}`)?.value || p.price,
+    link: document.getElementById(`plink-${i}`)?.value || p.link,
+    img: document.getElementById(`pimg-${i}`)?.value.trim() || '',
+    emoji: document.getElementById(`pemoji-${i}`)?.value || p.emoji,
+    bg: p.bg || COLORS[i % COLORS.length]
+  }));
+  data.related = data.related.map((r,i) => ({
+    name: document.getElementById(`rname-${i}`)?.value || r.name,
+    link: document.getElementById(`rlink-${i}`)?.value || r.link,
+    img: document.getElementById(`rimg-${i}`)?.value.trim() || '',
+    emoji: document.getElementById(`remoji-${i}`)?.value || r.emoji,
+    bg: r.bg || COLORS[i % COLORS.length]
+  }));
+}
+
+function saveAll() {
+  collectData();
+  localStorage.setItem('cozy-page-data', JSON.stringify(data));
+  showToast('✅ Saved! Now generate code below');
+}
+
+function resetAll() {
+  if (!confirm('Reset all changes?')) return;
+  data = JSON.parse(JSON.stringify(DEFAULTS));
+  localStorage.removeItem('cozy-page-data');
+  loadFields();
+  showToast('↩️ Reset done');
+}
+
+function generateCode() {
+  collectData();
+
+  // Hero section — real image or emoji fallback
+  const heroContent = data.heroImg
+    ? `<img src="${data.heroImg}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease" alt="hero" onerror="this.style.display='none';document.getElementById('hero-fb').style.display='flex'">\n      <div id="hero-fb" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(160deg,#c8b99a,#8a9e7a,#6b8256,#4a5e38)">${data.heroEmoji}</div>`
+    : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(160deg,#c8b99a,#8a9e7a,#6b8256,#4a5e38)">${data.heroEmoji}</div>`;
+
+  const productTiles = data.products.map(p => {
+    const inner = p.img
+      ? `<img src="${p.img}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:28px;background:${p.bg}">${p.emoji}</div>`
+      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;background:${p.bg}">${p.emoji}</div>`;
+    return `\n      <a href="${p.link}" class="product-tile" target="_blank">${inner}<div class="product-tile-price">${p.price}</div></a>`;
+  }).join('');
+
+  const relatedPins = data.related.map(r => {
+    const inner = r.img
+      ? `<img src="${r.img}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${r.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:36px;min-height:160px;background:${r.bg}">${r.emoji}</div>`
+      : `<div style="width:100%;height:100%;min-height:160px;display:flex;align-items:center;justify-content:center;font-size:36px;background:${r.bg}">${r.emoji}</div>`;
+    return `\n      <a href="${r.link}" class="related-pin" target="_blank">${inner}<div class="related-pin-label">${r.name}<div class="related-pin-cta">Shop on Amazon →</div></div></a>`;
+  }).join('');
+
+  const code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cozy Outdoor Living | Shop The Look</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}:root{--cream:#f8f4ef;--warm:#fff8f0;--sage:#7a9268;--terra:#b85c38;--bark:#4a3728;--muted:#8a7060;--border:rgba(74,55,40,0.1);--shadow:rgba(44,31,20,0.08)}body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--bark);min-height:100vh}.page{max-width:430px;margin:0 auto;background:var(--warm);min-height:100vh}.site-header{padding:18px 20px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--warm);z-index:100}.logo{font-family:'Playfair Display',serif;font-size:15px;color:var(--bark)}.logo span{color:var(--terra);font-style:italic}.header-tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);font-weight:500}.pin-image-wrap{position:relative;width:100%;aspect-ratio:2/3;overflow:hidden;cursor:pointer}.pin-image-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(44,31,20,.7) 100%);pointer-events:none}.pin-image-wrap:hover img{transform:scale(1.03)}.click-hint{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.92);border-radius:20px;padding:6px 12px;font-size:10px;letter-spacing:.08em;color:var(--bark);font-weight:500;z-index:3;pointer-events:none;text-transform:uppercase}.pin-overlay-text{position:absolute;bottom:0;left:0;right:0;padding:24px 20px 20px;z-index:2;pointer-events:none}.pin-overlay-badge{display:inline-block;background:var(--terra);color:white;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;font-weight:500;margin-bottom:8px}.pin-overlay-title{font-family:'Playfair Display',serif;font-size:22px;color:white;line-height:1.25;font-weight:400;text-shadow:0 2px 12px rgba(0,0,0,.3)}.shop-section{padding:20px 16px 0}.shop-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px}.shop-label::after{content:'';flex:1;height:1px;background:var(--border)}.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}.product-tile{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;text-decoration:none;display:block;transition:transform .2s ease,box-shadow .2s ease}.product-tile:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--shadow)}.product-tile-price{position:absolute;bottom:4px;right:4px;background:white;color:var(--terra);font-size:10px;font-weight:500;padding:2px 6px;border-radius:10px;font-family:'Playfair Display',serif}.cta-wrap{padding:4px 16px 16px}.cta-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--terra);color:white;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .2s,transform .15s}.cta-btn:hover{background:#a04e2e;transform:translateY(-1px)}.cta-btn::after{content:'→';font-size:16px}.pin-desc{padding:16px 16px 0}.pin-desc-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--bark);margin-bottom:8px;line-height:1.3}.pin-desc-text{font-size:12.5px;color:var(--muted);line-height:1.7}.pin-desc-text a{color:var(--sage);text-decoration:none}.related-section{padding:24px 16px 0}.related-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px}.related-label::after{content:'';flex:1;height:1px;background:var(--border)}.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.related-pin{border-radius:8px;overflow:hidden;cursor:pointer;text-decoration:none;display:block;position:relative;transition:transform .2s,box-shadow .2s}.related-pin:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--shadow)}.related-pin:nth-child(odd){aspect-ratio:2/3}.related-pin:nth-child(even){aspect-ratio:3/4}.related-pin-label{position:absolute;bottom:0;left:0;right:0;padding:28px 10px 10px;background:linear-gradient(transparent,rgba(44,31,20,.65));color:white;font-size:11px;line-height:1.3}.related-pin-cta{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-top:3px}.pinterest-follow{display:flex;align-items:center;justify-content:center;gap:10px;margin:20px 16px 0;padding:14px;background:#e60023;color:white;text-decoration:none;border-radius:4px;font-size:13px;font-weight:500;letter-spacing:.04em;transition:background .2s}.pinterest-follow:hover{background:#c0001d}.pinterest-follow svg{width:20px;height:20px;fill:white}.site-footer{padding:24px 16px 40px;margin-top:16px;border-top:1px solid var(--border);text-align:center}.footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--bark);margin-bottom:6px}.footer-note{font-size:10px;color:var(--muted);line-height:1.8}.footer-note a{color:var(--sage);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="site-header">
+    <div class="logo">Cozy Outdoor <span>Living</span></div>
+    <div class="header-tag">🌿 All on Amazon</div>
+  </header>
+  <div class="pin-card">
+    <div class="pin-image-wrap" onclick="window.open('${data.heroLink}','_blank')">
+      ${heroContent}
+      <div class="click-hint">Tap to Shop</div>
+      <div class="pin-overlay-text">
+        <div class="pin-overlay-badge">${data.heroBadge}</div>
+        <div class="pin-overlay-title">${data.heroTitle}</div>
+      </div>
+    </div>
+  </div>
+  <div class="shop-section">
+    <div class="shop-label">Shop the look</div>
+    <div class="product-grid">${productTiles}
+    </div>
+  </div>
+  <div class="cta-wrap">
+    <a href="${data.ctaLink}" class="cta-btn" target="_blank">${data.ctaText}</a>
+  </div>
+  <div class="pin-desc">
+    <div class="pin-desc-title">${data.descTitle}</div>
+    <div class="pin-desc-text">${data.descText}</div>
+  </div>
+  <div class="related-section">
+    <div class="related-label">More Ideas You'll Love</div>
+    <div class="related-grid">${relatedPins}
+    </div>
+  </div>
+  <a href="https://pinterest.com/cozyoutdoorhome" class="pinterest-follow" target="_blank">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+    Follow on Pinterest
+  </a>
+  <footer class="site-footer">
+    <div class="footer-logo">Cozy Outdoor Living</div>
+    <div class="footer-note">As an Amazon Associate I earn from qualifying purchases.<br>
+      <a href="https://pinterest.com/cozyoutdoorhome" target="_blank">@cozyoutdoorhome</a> · Updated weekly 🌿
+    </div>
+  </footer>
+</div>
+</body>
+</html>`;
+
+  document.getElementById('code-output').value = code;
+  showToast('✅ Code ready! Copy & paste to GitHub');
+}
+
+function copyCode() {
+  const ta = document.getElementById('code-output');
+  if (!ta.value) { showToast('❌ Generate code first'); return; }
+  ta.select();
+  document.execCommand('copy');
+  showToast('📋 Copied!');
+}
+
+function toggle(head) {
+  const body = head.nextElementSibling;
+  const chevron = head.querySelector('.section-chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+function selectEmoji(el, emoji) {
+  document.querySelectorAll('#hero-emoji-row .emoji-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('hero-emoji').value = emoji;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
