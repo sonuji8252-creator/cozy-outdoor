@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cozy Outdoor Living | Shop The Look</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --cream: #f8f4ef; --warm: #fff8f0; --sage: #7a9268; --terra: #b85c38;
+  --bark: #4a3728; --gold: #c8963c; --text: #2c1f14; --muted: #8a7060;
+  --border: rgba(74,55,40,0.1); --shadow: rgba(44,31,20,0.08);
+}
+body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--text); min-height: 100vh; }
+.page { max-width: 430px; margin: 0 auto; background: var(--warm); min-height: 100vh; }
+.site-header { padding: 18px 20px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--warm); z-index: 100; }
+.logo { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--bark); }
+.logo span { color: var(--terra); font-style: italic; }
+.header-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); font-weight: 500; }
+.pin-card { position: relative; overflow: hidden; }
+.pin-image-wrap { position: relative; width: 100%; aspect-ratio: 2/3; overflow: hidden; cursor: pointer; }
+.pin-image-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(44,31,20,0.7) 100%); pointer-events: none; }
+.pin-image-wrap:hover .pin-bg { transform: scale(1.03); }
+.pin-bg { width: 100%; height: 100%; transition: transform 0.6s ease; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+.click-hint { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,0.92); border-radius: 20px; padding: 6px 12px; font-size: 10px; letter-spacing: 0.08em; color: var(--bark); font-weight: 500; z-index: 3; pointer-events: none; text-transform: uppercase; }
+.pin-overlay-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 20px 20px; z-index: 2; pointer-events: none; }
+.pin-overlay-badge { display: inline-block; background: var(--terra); color: white; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; font-weight: 500; margin-bottom: 8px; }
+.pin-overlay-title { font-family: 'Playfair Display', serif; font-size: 22px; color: white; line-height: 1.25; font-weight: 400; text-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+.shop-section { padding: 20px 16px 0; }
+.shop-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.shop-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.product-tile { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: pointer; text-decoration: none; display: block; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.product-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow); }
+.product-tile-emoji { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.product-tile-price { position: absolute; bottom: 4px; right: 4px; background: white; color: var(--terra); font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 10px; font-family: 'Playfair Display', serif; }
+.cta-wrap { padding: 4px 16px 16px; }
+.cta-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 16px; background: var(--terra); color: white; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s, transform 0.15s; }
+.cta-btn:hover { background: #a04e2e; transform: translateY(-1px); }
+.cta-btn::after { content: '→'; font-size: 16px; }
+.pin-desc { padding: 16px 16px 0; }
+.pin-desc-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 400; color: var(--bark); margin-bottom: 8px; line-height: 1.3; }
+.pin-desc-text { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+.pin-desc-text a { color: var(--sage); text-decoration: none; }
+.related-section { padding: 24px 16px 0; }
+.related-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.related-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.related-pin { border-radius: 8px; overflow: hidden; cursor: pointer; text-decoration: none; display: block; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+.related-pin:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--shadow); }
+.related-pin:nth-child(odd) { aspect-ratio: 2/3; }
+.related-pin:nth-child(even) { aspect-ratio: 3/4; }
+.related-pin-emoji { width: 100%; height: 100%; min-height: 160px; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+.related-pin-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 10px 10px; background: linear-gradient(transparent, rgba(44,31,20,0.65)); color: white; font-size: 11px; line-height: 1.3; }
+.related-pin-cta { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-top: 3px; }
+.site-footer { padding: 28px 16px 40px; margin-top: 24px; border-top: 1px solid var(--border); text-align: center; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; color: var(--bark); margin-bottom: 6px; }
+.footer-note { font-size: 10px; color: var(--muted); line-height: 1.8; }
+.footer-note a { color: var(--sage); text-decoration: none; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.shop-section { animation: fadeUp 0.5s 0.1s ease both; }
+.cta-wrap { animation: fadeUp 0.5s 0.2s ease both; }
+.pin-desc { animation: fadeUp 0.5s 0.3s ease both; }
+.related-section { animation: fadeUp 0.5s 0.35s ease both; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="site-header">
+    <div class="logo">Cozy Outdoor <span>Living</span></div>
+    <div class="header-tag">🌿 All on Amazon</div>
+  </header>
+
+  <div class="pin-card" id="hero-section">
+    <div class="pin-image-wrap" onclick="window.open(document.getElementById('hero-url').value || 'https://www.amazon.com/s?k=balcony+lounge+setup&tag=cozyoutdoorl-20','_blank')">
+      <div class="pin-bg" id="hero-bg" style="background:linear-gradient(160deg,#c8b99a,#8a9e7a,#6b8256,#4a5e38)">🌿</div>
+      <div class="click-hint">Tap to Shop</div>
+      <div class="pin-overlay-text">
+        <div class="pin-overlay-badge" id="hero-badge">🔥 Trending Now</div>
+        <div class="pin-overlay-title" id="hero-title">Relaxing Balcony Lounge Setup for Cozy Mornings</div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" id="hero-url" value="https://www.amazon.com/s?k=rattan+balcony+lounge+chair+outdoor+cozy&tag=cozyoutdoorl-20">
+
+  <div class="shop-section">
+    <div class="shop-label">Shop the look</div>
+    <div class="product-grid" id="product-grid">
+      <a href="https://www.amazon.com/s?k=rattan+lounge+chair+outdoor&tag=cozyoutdoorl-20" class="product-tile" target="_blank" style="background:linear-gradient(135deg,#ede6dc,#ddd3c5)">
+        <div class="product-tile-emoji">🪑</div>
+        <div class="product-tile-price">$59</div>
+      </a>
+      <a href="https://www.amazon.com/s?k=outdoor+string+lights&tag=cozyoutdoorl-20" class="product-tile" target="_blank" style="background:linear-gradient(135deg,#dde5d8,#ccd8c4)">
+        <div class="product-tile-emoji">💡</div>
+        <div class="product-tile-price">$24</div>
+      </a>
+      <a href="https://www.amazon.com/s?k=jute+outdoor+rug&tag=cozyoutdoorl-20" class="product-tile" target="_blank" style="background:linear-gradient(135deg,#e4d5c0,#d0bfa8)">
+        <div class="product-tile-emoji">🏡</div>
+        <div class="product-tile-price">$38</div>
+      </a>
+      <a href="https://www.amazon.com/s?k=rattan+side+table+outdoor&tag=cozyoutdoorl-20" class="product-tile" target="_blank" style="background:linear-gradient(135deg,#dde0d4,#c8ccbc)">
+        <div class="product-tile-emoji">🪴</div>
+        <div class="product-tile-price">$32</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="cta-wrap">
+    <a href="https://www.amazon.com/s?k=balcony+lounge+setup+outdoor+cozy&tag=cozyoutdoorl-20" class="cta-btn" id="cta-link" target="_blank">Shop This Look on Amazon</a>
+  </div>
+
+  <div class="pin-desc">
+    <div class="pin-desc-title" id="desc-title">Relaxing Balcony Lounge Setup for Cozy Mornings</div>
+    <div class="pin-desc-text" id="desc-text">
+      Does your balcony feel empty every time you look at it? This complete setup transforms any small outdoor space into a cozy retreat — all products linked on Amazon, starting at $24. Tap any product above to shop the exact look.
+      <a href="https://www.amazon.com/s?k=balcony+decor&tag=cozyoutdoorl-20"> #balconydecor</a>
+      <a href="https://www.amazon.com/s?k=outdoor+living&tag=cozyoutdoorl-20"> #outdoorliving</a>
+      <a href="https://www.amazon.com/s?k=amazon+home+outdoor&tag=cozyoutdoorl-20"> #amazonfinds</a>
+    </div>
+  </div>
+
+  <div class="related-section">
+    <div class="related-label">More Ideas You'll Love</div>
+    <div class="related-grid">
+      <a href="https://www.amazon.com/s?k=backyard+fire+pit&tag=cozyoutdoorl-20" class="related-pin" target="_blank">
+        <div class="related-pin-emoji" style="background:linear-gradient(135deg,#c4714a,#8a4a28)">🔥</div>
+        <div class="related-pin-label">Backyard Fire Pit Setup<div class="related-pin-cta">Shop on Amazon →</div></div>
+      </a>
+      <a href="https://www.amazon.com/s?k=solar+garden+lights&tag=cozyoutdoorl-20" class="related-pin" target="_blank">
+        <div class="related-pin-emoji" style="background:linear-gradient(135deg,#8a9e7a,#4a6038)">🌟</div>
+        <div class="related-pin-label">Garden Lighting Ideas<div class="related-pin-cta">Shop on Amazon →</div></div>
+      </a>
+      <a href="https://www.amazon.com/s?k=small+patio+bistro+set&tag=cozyoutdoorl-20" class="related-pin" target="_blank">
+        <div class="related-pin-emoji" style="background:linear-gradient(135deg,#b09070,#7a6048)">☕</div>
+        <div class="related-pin-label">Small Patio Bistro Set<div class="related-pin-cta">Shop on Amazon →</div></div>
+      </a>
+      <a href="https://www.amazon.com/s?k=outdoor+rug+patio&tag=cozyoutdoorl-20" class="related-pin" target="_blank">
+        <div class="related-pin-emoji" style="background:linear-gradient(135deg,#9aac8a,#6a8058)">🏡</div>
+        <div class="related-pin-label">Outdoor Rugs & Pillows<div class="related-pin-cta">Shop on Amazon →</div></div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-logo">Cozy Outdoor Living</div>
+    <div class="footer-note">
+      As an Amazon Associate I earn from qualifying purchases.<br>
+      <a href="https://pinterest.com/cozyoutdoorhome" target="_blank">Follow on Pinterest</a> · Updated weekly 🌿
+    </div>
+  </footer>
+</div>
+</body>
+</html>
