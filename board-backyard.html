@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backyard Landscaping | Cozy Outdoor Living</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cream:#f8f4ef;--warm:#fff8f0;--sage:#7a9268;--terra:#b85c38;--bark:#4a3728;--muted:#8a7060;--border:rgba(74,55,40,0.12);--shadow:rgba(44,31,20,0.1);--pin-red:#e60023;--gold:#c8963c}
+body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--bark);min-height:100vh}
+.page{max-width:430px;margin:0 auto;background:var(--warm);min-height:100vh}
+.site-header{padding:13px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--warm);z-index:200}
+.back-btn{width:32px;height:32px;border-radius:50%;background:var(--cream);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;text-decoration:none;color:var(--bark);flex-shrink:0}
+.header-title{font-family:'Playfair Display',serif;font-size:14px;color:var(--bark);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.follow-top{display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;background:var(--pin-red);color:white;text-decoration:none;font-size:11px;font-weight:500;letter-spacing:0.04em;transition:background 0.2s}
+.follow-top:hover{background:#c0001d}
+.follow-top svg{width:14px;height:14px;fill:white;flex-shrink:0}
+.urgent-bar{padding:9px 14px;background:linear-gradient(135deg,#2a1f14,#4a3728);display:flex;align-items:center;justify-content:space-between}
+.urgent-text{color:white;font-size:11px;font-weight:500;letter-spacing:0.03em}
+.urgent-badge{background:var(--terra);color:white;font-size:8px;font-weight:600;padding:3px 9px;border-radius:10px;letter-spacing:0.08em;text-transform:uppercase;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+.board-hero{padding:16px 16px 14px;border-bottom:1px solid var(--border);text-align:center}
+.board-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--bark);margin-bottom:4px}
+.board-desc{font-size:11px;color:var(--muted);line-height:1.7;max-width:300px;margin:0 auto 12px}
+.shop-all-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:var(--terra);color:white;border-radius:2px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s}
+.shop-all-btn:hover{background:#a04e2e;transform:translateY(-1px)}
+.shop-all-btn::after{content:"&#8594;"}
+.count-bar{padding:9px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:white}
+.count-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.count-right{display:flex;align-items:center;gap:8px}
+.count-num{font-size:11px;color:var(--sage);font-weight:500}
+.count-cta{background:var(--gold);color:white;font-size:8px;font-weight:600;padding:3px 8px;border-radius:8px;letter-spacing:0.06em;text-transform:uppercase}
+.pins-masonry{columns:2;column-gap:5px;padding:5px}
+.pin-card{break-inside:avoid;margin-bottom:5px;border-radius:10px;overflow:hidden;cursor:pointer;display:block;text-decoration:none;background:white;border:1px solid var(--border);transition:transform 0.2s,box-shadow 0.2s;position:relative}
+.pin-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px var(--shadow)}
+.pin-img-wrap{position:relative;overflow:hidden;width:100%}
+.pin-img-wrap img{width:100%;display:block;object-fit:cover;transition:transform 0.4s ease}
+.pin-card:hover .pin-img-wrap img{transform:scale(1.04)}
+.pin-fallback{width:100%;display:flex;align-items:center;justify-content:center;font-size:28px}
+.pin-badge{position:absolute;top:7px;left:7px;background:var(--terra);color:white;font-size:9px;font-weight:600;padding:3px 8px;border-radius:10px;letter-spacing:0.06em;text-transform:uppercase}
+.pin-price-badge{position:absolute;top:7px;right:7px;background:white;color:var(--terra);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;font-family:'Playfair Display',serif;box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+.pin-info{padding:7px 9px 9px}
+.pin-name{font-size:11px;color:var(--bark);line-height:1.4;margin-bottom:5px}
+.pin-bottom{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.pin-price{font-family:'Playfair Display',serif;font-size:13px;color:var(--terra);font-weight:600}
+.pin-buy-btn{background:var(--terra);color:white;font-size:8px;font-weight:600;padding:4px 8px;border-radius:2px;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
+.related-section{padding:16px;border-top:2px solid var(--border);margin-top:4px}
+.related-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.related-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:400;color:var(--bark)}
+.related-cta-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--terra);font-weight:600}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.related-card{border-radius:8px;overflow:hidden;text-decoration:none;display:block;border:1px solid var(--border);background:var(--cream);transition:transform 0.2s,box-shadow 0.2s;position:relative}
+.related-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--shadow)}
+.related-img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.related-fallback{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:22px}
+.related-badge{position:absolute;top:6px;left:6px;background:var(--terra);color:white;font-size:7px;font-weight:600;padding:2px 6px;border-radius:8px;letter-spacing:0.06em;text-transform:uppercase}
+.related-info{padding:7px 8px}
+.related-name{font-size:10.5px;color:var(--bark);line-height:1.4;margin-bottom:3px}
+.related-bottom{display:flex;align-items:center;justify-content:space-between}
+.related-price{font-family:'Playfair Display',serif;font-size:12px;color:var(--terra);font-weight:600}
+.related-shop{font-size:8px;font-weight:500;color:var(--sage);letter-spacing:0.06em;text-transform:uppercase}
+.other-boards-section{padding:16px 14px}
+.section-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.other-boards-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.other-board{border-radius:8px;overflow:hidden;text-decoration:none;display:block;border:1px solid var(--border);background:white;transition:transform 0.2s}
+.other-board:hover{transform:translateY(-2px)}
+.other-board-img{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:22px}
+.other-board-info{padding:7px 9px}
+.other-board-name{font-size:11px;font-weight:500;color:var(--bark);margin-bottom:2px}
+.other-board-cta{font-size:8px;color:var(--terra);font-weight:500;letter-spacing:0.04em}
+.follow-bottom{margin:4px 14px 14px;padding:12px;background:var(--pin-red);border-radius:4px;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;color:white;font-size:11px;font-weight:500;letter-spacing:0.04em;transition:background 0.2s}
+.follow-bottom:hover{background:#c0001d}
+.follow-bottom svg{width:16px;height:16px;fill:white}
+.site-footer{padding:16px 14px 40px;border-top:1px solid var(--border);text-align:center}
+.footer-note{font-size:10px;color:var(--muted);line-height:1.8}
+.footer-note a{color:var(--sage);text-decoration:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pin-card{animation:fadeUp 0.35s ease both}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="site-header">
+  <a href="index.html" class="back-btn">&#8592;</a>
+  <span class="header-title">&#127795; Backyard Landscaping</span>
+</header>
+<a href="https://pinterest.com/cozyoutdoorhome" class="follow-top" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+  Follow on Pinterest &mdash; @cozyoutdoorhome
+</a>
+<div class="urgent-bar">
+  <span class="urgent-text">&#128293; Trending now — Backyard makeover picks on Amazon</span>
+  <span class="urgent-badge">&#8203;Shop Now</span>
+</div>
+<div class="board-hero">
+  <div class="board-title">Backyard Landscaping</div>
+  <div class="board-desc">Transform your backyard into a stunning outdoor paradise. Fire pits, hammocks, pergolas & landscaping on Amazon.</div>
+  <a href="https://www.amazon.com/s?k=backyard+landscaping+outdoor+decor&tag=cozyoutdoorl-20" class="shop-all-btn" target="_blank">Shop All on Amazon </a>
+</div>
+<div class="count-bar">
+  <span class="count-label">All Products</span>
+  <div class="count-right">
+    <span class="count-num">20 linked</span>
+    <span class="count-cta">Limited Stock</span>
+  </div>
+</div>
+<div class="pins-masonry">
+  <a href="https://www.amazon.com/s?k=backyard+fire+pit+wood+burning&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.00s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:165px;background:linear-gradient(135deg,#c8b99a,#8a9e7a)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$89</div>
+    <div class="pin-info">
+      <div class="pin-name">Backyard Fire Pit Wood</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$89</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=hammock+with+stand+2+person&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.03s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:185px;background:linear-gradient(135deg,#dde5d8,#aac4a0)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$99</div>
+    <div class="pin-info">
+      <div class="pin-name">Hammock with Stand 2p</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$99</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=garden+privacy+screen+fence&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.05s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:150px;background:linear-gradient(135deg,#e4d5c0,#c4a880)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$45</div>
+    <div class="pin-info">
+      <div class="pin-name">Garden Privacy Screen</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$45</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=pergola+kit+10x10+DIY+outdoor&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.08s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:175px;background:linear-gradient(135deg,#b09070,#7a5838)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$249</div>
+    <div class="pin-info">
+      <div class="pin-name">Pergola Kit 10x10 DIY</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$249</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=lawn+games+cornhole+boards&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.10s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:145px;background:linear-gradient(135deg,#4a3728,#2a1f14)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$49</div>
+    <div class="pin-info">
+      <div class="pin-name">Cornhole Game Set</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$49</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=raised+garden+bed+4x8+cedar&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.12s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:160px;background:linear-gradient(135deg,#c4714a,#8a4020)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$54</div>
+    <div class="pin-info">
+      <div class="pin-name">Raised Garden Bed 4x8</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$54</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=outdoor+rug+8x10+patio+waterproof&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.15s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:150px;background:linear-gradient(135deg,#7a9268,#4a6038)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$68</div>
+    <div class="pin-info">
+      <div class="pin-name">Outdoor Rug 8x10</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$68</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=fire+pit+chairs+set+4+adirondack&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.18s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:185px;background:linear-gradient(135deg,#c8963c,#8a6020)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$199</div>
+    <div class="pin-info">
+      <div class="pin-name">Fire Pit Chairs Set4</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$199</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=garden+fountain+solar+outdoor&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.20s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:170px;background:linear-gradient(135deg,#9aac8a,#5a7048)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$65</div>
+    <div class="pin-info">
+      <div class="pin-name">Garden Solar Fountain</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$65</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=outdoor+canopy+shade+sail&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.23s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:145px;background:linear-gradient(135deg,#5a8048,#3a6030)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$35</div>
+    <div class="pin-info">
+      <div class="pin-name">Shade Sail Triangle</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$35</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=backyard+bbq+grill+portable&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.25s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:160px;background:linear-gradient(135deg,#c8b99a,#8a9e7a)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$149</div>
+    <div class="pin-info">
+      <div class="pin-name">BBQ Grill Portable</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$149</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=garden+trellis+metal+arch&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.28s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:155px;background:linear-gradient(135deg,#dde5d8,#aac4a0)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$38</div>
+    <div class="pin-info">
+      <div class="pin-name">Metal Garden Trellis</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$38</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=bocce+ball+set+outdoor+backyard&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.30s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:150px;background:linear-gradient(135deg,#e4d5c0,#c4a880)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$35</div>
+    <div class="pin-info">
+      <div class="pin-name">Bocce Ball Set</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$35</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=outdoor+bar+table+set+high&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.33s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:180px;background:linear-gradient(135deg,#b09070,#7a5838)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$179</div>
+    <div class="pin-info">
+      <div class="pin-name">Outdoor Bar Table High</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$179</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=backyard+swing+set+adult&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.35s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:165px;background:linear-gradient(135deg,#4a3728,#2a1f14)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$129</div>
+    <div class="pin-info">
+      <div class="pin-name">Backyard Swing Adult</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$129</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=garden+edging+border+landscape&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.38s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:145px;background:linear-gradient(135deg,#c4714a,#8a4020)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$24</div>
+    <div class="pin-info">
+      <div class="pin-name">Garden Edging Border</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$24</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=outdoor+movie+screen+120+inch&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.40s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:160px;background:linear-gradient(135deg,#7a9268,#4a6038)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$79</div>
+    <div class="pin-info">
+      <div class="pin-name">Outdoor Movie Screen</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$79</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=outdoor+sectional+daybed+canopy&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.43s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:195px;background:linear-gradient(135deg,#c8963c,#8a6020)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$349</div>
+    <div class="pin-info">
+      <div class="pin-name">Outdoor Sectional Bed</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$349</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=garden+stepping+stones+path&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.45s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:145px;background:linear-gradient(135deg,#9aac8a,#5a7048)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$32</div>
+    <div class="pin-info">
+      <div class="pin-name">Stepping Stones Path</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$32</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+  <a href="https://www.amazon.com/s?k=outdoor+projector+screen&tag=cozyoutdoorl-20" class="pin-card" target="_blank" style="animation-delay:0.48s">
+    <div class="pin-img-wrap">
+      <div class="pin-fallback" style="height:170px;background:linear-gradient(135deg,#5a8048,#3a6030)">&#127807;</div>
+    </div>
+    <div class="pin-badge">Buy Now</div>
+    <div class="pin-price-badge">$89</div>
+    <div class="pin-info">
+      <div class="pin-name">Outdoor Projector</div>
+      <div class="pin-bottom">
+        <span class="pin-price">$89</span>
+        <span class="pin-buy-btn">Shop Amazon</span>
+      </div>
+    </div>
+  </a>
+</div>
+<div class="related-section">
+  <div class="related-head">
+    <div class="related-title">Complete the Look</div>
+    <div class="related-cta-label">&#128293; Buy Together &amp; Save</div>
+  </div>
+  <div class="related-grid">
+    <a href="https://www.amazon.com/s?k=fire+pit+log+rack+cover&tag=cozyoutdoorl-20" class="related-card" target="_blank">
+      <div class="related-fallback" style="background:linear-gradient(135deg,#4a3728,#2a1f14)">&#127807;</div>
+      <div class="related-badge">Limited</div>
+      <div class="related-info">
+        <div class="related-name">Fire Pit Log Rack</div>
+        <div class="related-bottom">
+          <span class="related-price">$34</span>
+          <span class="related-shop">Shop &#8594;</span>
+        </div>
+      </div>
+    </a>
+    <a href="https://www.amazon.com/s?k=outdoor+blanket+waterproof&tag=cozyoutdoorl-20" class="related-card" target="_blank">
+      <div class="related-fallback" style="background:linear-gradient(135deg,#c4714a,#8a4020)">&#127807;</div>
+      <div class="related-badge">Limited</div>
+      <div class="related-info">
+        <div class="related-name">Outdoor Blanket</div>
+        <div class="related-bottom">
+          <span class="related-price">$29</span>
+          <span class="related-shop">Shop &#8594;</span>
+        </div>
+      </div>
+    </a>
+    <a href="https://www.amazon.com/s?k=smores+roasting+sticks+fire+pit&tag=cozyoutdoorl-20" class="related-card" target="_blank">
+      <div class="related-fallback" style="background:linear-gradient(135deg,#7a9268,#4a6038)">&#127807;</div>
+      <div class="related-badge">Limited</div>
+      <div class="related-info">
+        <div class="related-name">Roasting Sticks Set</div>
+        <div class="related-bottom">
+          <span class="related-price">$18</span>
+          <span class="related-shop">Shop &#8594;</span>
+        </div>
+      </div>
+    </a>
+    <a href="https://www.amazon.com/s?k=adirondack+cup+holder+clip&tag=cozyoutdoorl-20" class="related-card" target="_blank">
+      <div class="related-fallback" style="background:linear-gradient(135deg,#c8963c,#8a6020)">&#127807;</div>
+      <div class="related-badge">Limited</div>
+      <div class="related-info">
+        <div class="related-name">Cup Holder Chair Clip</div>
+        <div class="related-bottom">
+          <span class="related-price">$12</span>
+          <span class="related-shop">Shop &#8594;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+<div class="other-boards-section">
+  <div class="section-label">More Boards to Explore</div>
+  <div class="other-boards-grid">
+    <a href="board-furniture.html" class="other-board">
+      <div class="other-board-img" style="background:linear-gradient(135deg,#b09070,#7a5838)">&#128763;</div>
+      <div class="other-board-info">
+        <div class="other-board-name">Outdoor Furniture</div>
+        <div class="other-board-cta">Shop Now &#8594;</div>
+      </div>
+    </a>
+    <a href="board-lighting.html" class="other-board">
+      <div class="other-board-img" style="background:linear-gradient(135deg,#4a3728,#2a1f14)">&#128161;</div>
+      <div class="other-board-info">
+        <div class="other-board-name">Garden Lighting</div>
+        <div class="other-board-cta">Shop Now &#8594;</div>
+      </div>
+    </a>
+    <a href="board-eco.html" class="other-board">
+      <div class="other-board-img" style="background:linear-gradient(135deg,#5a8048,#3a6030)">&#9851;</div>
+      <div class="other-board-info">
+        <div class="other-board-name">Eco-Friendly</div>
+        <div class="other-board-cta">Shop Now &#8594;</div>
+      </div>
+    </a>
+    <a href="board-rugs.html" class="other-board">
+      <div class="other-board-img" style="background:linear-gradient(135deg,#c8b090,#907050)">&#129716;</div>
+      <div class="other-board-info">
+        <div class="other-board-name">Rugs & Pillows</div>
+        <div class="other-board-cta">Shop Now &#8594;</div>
+      </div>
+    </a>
+  </div>
+</div>
+<a href="https://pinterest.com/cozyoutdoorhome" class="follow-bottom" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+  Follow us on Pinterest for daily outdoor inspiration
+</a>
+<footer class="site-footer">
+  <div class="footer-note">As an Amazon Associate I earn from qualifying purchases.<br>
+    <a href="https://pinterest.com/cozyoutdoorhome" target="_blank">@cozyoutdoorhome</a> &middot; Updated weekly &#127807;
+  </div>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cozy Outdoor Living | Patio & Garden Ideas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cream:#f8f4ef;--warm:#fff8f0;--sage:#7a9268;--terra:#b85c38;--bark:#4a3728;--muted:#8a7060;--border:rgba(74,55,40,0.12);--shadow:rgba(44,31,20,0.1);--pin-red:#e60023;--gold:#c8963c}
+body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--bark);min-height:100vh}
+.page{max-width:430px;margin:0 auto;background:var(--warm);min-height:100vh}
+.site-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--warm);z-index:200}
+.logo{font-family:'Playfair Display',serif;font-size:15px;color:var(--bark);text-decoration:none}
+.logo span{color:var(--terra);font-style:italic}
+.follow-top{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;background:var(--pin-red);color:white;text-decoration:none;font-size:12px;font-weight:500;letter-spacing:0.04em;transition:background 0.2s;border-bottom:1px solid rgba(0,0,0,0.08)}
+.follow-top:hover{background:#c0001d}
+.follow-top svg{width:16px;height:16px;fill:white;flex-shrink:0}
+.profile{text-align:center;padding:24px 20px 16px;border-bottom:1px solid var(--border)}
+.profile-avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#8a9e7a,#4a6038);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 10px;border:3px solid white;box-shadow:0 4px 16px var(--shadow)}
+.profile-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--bark);margin-bottom:3px}
+.profile-handle{font-size:11px;color:var(--muted);margin-bottom:8px}
+.profile-bio{font-size:11.5px;color:var(--muted);line-height:1.7;max-width:280px;margin:0 auto}
+
+/* URGENT CTA STRIP */
+.urgent-strip{margin:12px 12px 0;padding:10px 14px;background:linear-gradient(135deg,var(--terra),#d4724a);border-radius:4px;display:flex;align-items:center;justify-content:space-between;color:white}
+.urgent-text{font-size:11px;font-weight:500;letter-spacing:0.04em}
+.urgent-badge{background:white;color:var(--terra);font-size:9px;font-weight:600;padding:3px 8px;border-radius:10px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-top:12px}
+.tab{flex:1;padding:11px;text-align:center;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.tab.active{color:var(--terra);border-bottom-color:var(--terra)}
+
+/* TOP BOARDS GRID — 2 col masonry */
+.section-label{padding:12px 16px 8px;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.boards-grid{columns:2;column-gap:4px;padding:4px}
+.board-card{break-inside:avoid;margin-bottom:4px;border-radius:8px;overflow:hidden;cursor:pointer;text-decoration:none;display:block;position:relative;transition:transform 0.2s,box-shadow 0.2s}
+.board-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--shadow)}
+.board-mosaic{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:100%}
+.board-card:nth-child(odd) .board-mosaic{height:140px}
+.board-card:nth-child(even) .board-mosaic{height:120px}
+.board-card:first-child{grid-column:1/-1;columns:unset}
+.mosaic-cell{overflow:hidden;background:var(--cream)}
+.mosaic-cell:first-child{grid-row:1/3}
+.mosaic-cell .emoji-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px}
+.board-info{padding:7px 8px 9px;background:white;border-top:1px solid var(--border)}
+.board-name{font-size:12px;font-weight:500;color:var(--bark);margin-bottom:2px}
+.board-meta{display:flex;align-items:center;justify-content:space-between}
+.board-count{font-size:10px;color:var(--muted)}
+.board-cta-badge{background:var(--terra);color:white;font-size:8px;font-weight:600;padding:2px 7px;border-radius:8px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* MORE BOARDS — horizontal scroll */
+.more-boards-wrap{padding:0 12px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.more-boards-wrap::-webkit-scrollbar{display:none}
+.more-boards-row{display:flex;gap:8px;padding-bottom:4px;width:max-content}
+.more-board-chip{width:100px;border-radius:8px;overflow:hidden;text-decoration:none;display:block;background:white;border:1px solid var(--border);flex-shrink:0;transition:transform 0.2s}
+.more-board-chip:hover{transform:translateY(-2px)}
+.chip-img{height:64px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.chip-name{padding:5px 6px 7px;font-size:10px;font-weight:500;color:var(--bark);line-height:1.3}
+.chip-cta{font-size:8px;color:var(--terra);font-weight:500;letter-spacing:0.04em}
+
+/* FOLLOW BOTTOM */
+.follow-bottom{margin:16px 12px;padding:13px;background:var(--pin-red);border-radius:4px;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;color:white;font-size:12px;font-weight:500;letter-spacing:0.04em;transition:background 0.2s}
+.follow-bottom:hover{background:#c0001d}
+.follow-bottom svg{width:18px;height:18px;fill:white}
+
+.site-footer{padding:16px 16px 40px;border-top:1px solid var(--border);text-align:center}
+.footer-logo{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--bark);margin-bottom:4px}
+.footer-note{font-size:10px;color:var(--muted);line-height:1.8}
+.footer-note a{color:var(--sage);text-decoration:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.board-card{animation:fadeUp 0.4s ease both}
+.board-card:nth-child(1){animation-delay:0.05s}.board-card:nth-child(2){animation-delay:0.1s}
+.board-card:nth-child(3){animation-delay:0.15s}.board-card:nth-child(4){animation-delay:0.2s}
+.board-card:nth-child(5){animation-delay:0.25s}.board-card:nth-child(6){animation-delay:0.3s}
+.board-card:nth-child(7){animation-delay:0.35s}.board-card:nth-child(8){animation-delay:0.4s}
+.board-card:nth-child(9){animation-delay:0.45s}.board-card:nth-child(10){animation-delay:0.5s}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="site-header">
+  <a href="index.html" class="logo">Cozy Outdoor <span>Living</span></a>
+  <span style="font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase">All on Amazon</span>
+</header>
+
+<a href="https://pinterest.com/cozyoutdoorhome" class="follow-top" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+  Follow on Pinterest &mdash; @cozyoutdoorhome
+</a>
+
+<div class="profile">
+  <div class="profile-avatar">&#127807;</div>
+  <div class="profile-name">Cozy Outdoor Living</div>
+  <div class="profile-handle">cozyoutdoorhome</div>
+  <div class="profile-bio">Affordable patio &amp; balcony decor &mdash; all on Amazon &#127958; Real setups. Real products. Real prices.</div>
+</div>
+
+<div class="urgent-strip">
+  <span class="urgent-text">&#128293; Summer Deals &mdash; Limited Stock on Amazon</span>
+  <span class="urgent-badge">Shop Now</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active">Created</div>
+  <div class="tab">Saved</div>
+</div>
+
+<div class="section-label">Top Boards &mdash; Tap to Shop</div>
+
+<div class="boards-grid">
+  <a href="board-furniture.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#b09070,#7a5838)">&#128763;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#c8b090,#906848);font-size:16px">&#128763;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#d4c0a0,#a08060);font-size:14px">&#128763;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Outdoor Furniture</div>
+      <div class="board-meta">
+        <span class="board-count">90+ pins</span>
+        <span class="board-cta-badge">Shop Now</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-patio.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#c8b99a,#8a9e7a)">&#127968;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#ddd3c5,#aaa090);font-size:16px">&#127968;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#e8ddd0,#c0b098);font-size:14px">&#127968;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Patio Furniture Ideas</div>
+      <div class="board-meta">
+        <span class="board-count">26+ pins</span>
+        <span class="board-cta-badge">Buy Now</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-backyard.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#4a6038,#2a4020)">&#127795;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#6a8050,#3a5030);font-size:16px">&#127795;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#7a9060,#4a6038);font-size:14px">&#127795;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Backyard Landscaping</div>
+      <div class="board-meta">
+        <span class="board-count">40+ pins</span>
+        <span class="board-cta-badge">Limited Offer</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-rugs.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#c8b090,#907050)">&#129716;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#d8c8a8,#a08868);font-size:16px">&#129716;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#e0d0b0,#b09870);font-size:14px">&#129716;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Outdoor Rugs & Pillows</div>
+      <div class="board-meta">
+        <span class="board-count">29+ pins</span>
+        <span class="board-cta-badge">Shop Now</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-bbq.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#4a3728,#2a1f14)">&#127859;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#6a5040,#3a2820);font-size:16px">&#127859;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#c4714a,#8a4020);font-size:14px">&#127859;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Outdoor Kitchen & BBQ</div>
+      <div class="board-meta">
+        <span class="board-count">19+ pins</span>
+        <span class="board-cta-badge">Buy Now</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-seasonal.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#c8963c,#8a6020)">&#9728;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#d8a850,#987030);font-size:16px">&#9728;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#e8c070,#a88040);font-size:14px">&#9728;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Seasonal Patio Refresh</div>
+      <div class="board-meta">
+        <span class="board-count">27+ pins</span>
+        <span class="board-cta-badge">Limited Stock</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-smallpatio.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#9aac8a,#5a7048)">&#127804;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#aac09a,#6a8058);font-size:16px">&#127804;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#bcd0aa,#7a9068);font-size:14px">&#127804;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Small Patio Ideas</div>
+      <div class="board-meta">
+        <span class="board-count">16+ pins</span>
+        <span class="board-cta-badge">Shop Now</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-eco.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#5a8048,#3a6030)">&#9851;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#6a9058,#4a7040);font-size:16px">&#9851;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#7aa068,#5a8050);font-size:14px">&#9851;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Eco-Friendly Outdoor</div>
+      <div class="board-meta">
+        <span class="board-count">22+ pins</span>
+        <span class="board-cta-badge">Buy Now</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-lighting.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#2a1f14,#4a3728)">&#128161;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#c8963c,#8a6020);font-size:16px">&#128161;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#3a2820,#6a5040);font-size:14px">&#128161;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Outdoor Lighting Ideas</div>
+      <div class="board-meta">
+        <span class="board-count">28+ pins</span>
+        <span class="board-cta-badge">Limited Offer</span>
+      </div>
+    </div>
+  </a>
+  <a href="board-firepit.html" class="board-card">
+    <div class="board-mosaic">
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#c4714a,#8a4020)">&#128293;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#d48050,#a05030);font-size:16px">&#128293;</div></div>
+      <div class="mosaic-cell"><div class="emoji-bg" style="background:linear-gradient(135deg,#e49060,#b06040);font-size:14px">&#128293;</div></div>
+    </div>
+    <div class="board-info">
+      <div class="board-name">Backyard Fire Pit</div>
+      <div class="board-meta">
+        <span class="board-count">8+ pins</span>
+        <span class="board-cta-badge">Shop Now</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<div class="section-label">More Boards</div>
+<div class="more-boards-wrap">
+  <div class="more-boards-row">
+    <a href="board-pool.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#4a8aaa,#2a5878)">&#127946;</div>
+      <div class="chip-name">Luxury Pool Area<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-porch.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#b09070,#7a6050)">&#127968;</div>
+      <div class="chip-name">Porch & Entryway<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-diy.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#7a6050,#4a3830)">&#128296;</div>
+      <div class="chip-name">DIY Outdoor Projects<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-makeover.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#4a6038,#2a4020)">&#127775;</div>
+      <div class="chip-name">Backyard Makeover<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-homedecor.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#c8b090,#907060)">&#127800;</div>
+      <div class="chip-name">home decor idea<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-budget.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#7a9268,#4a6038)">&#128176;</div>
+      <div class="chip-name">Budget Patio Makeover<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-furniture2.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#b09070,#7a5838)">&#129717;</div>
+      <div class="chip-name">Outdoor furniture idea<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-balcony.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#c8b99a,#8a9e7a)">&#127793;</div>
+      <div class="chip-name">Balcony Setup<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-gardenlighting.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#c8963c,#8a6020)">&#11088;</div>
+      <div class="chip-name">Garden Lighting<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-outdoordecor.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#8a9e7a,#5a7050)">&#127979;</div>
+      <div class="chip-name">outdoor home decor<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-kitchen.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#4a3728,#2a1f14)">&#127859;</div>
+      <div class="chip-name">Outdoor Kitchen<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+    <a href="board-allpins.html" class="more-board-chip">
+      <div class="chip-img" style="background:linear-gradient(135deg,#8a7060,#5a4838)">&#128247;</div>
+      <div class="chip-name">All Pins<span class="chip-cta">Shop Now &rarr;</span></div>
+    </a>
+
+  </div>
+</div>
+
+<a href="https://pinterest.com/cozyoutdoorhome" class="follow-bottom" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+  Follow us on Pinterest for daily inspiration
+</a>
+
+<footer class="site-footer">
+  <div class="footer-logo">Cozy Outdoor Living</div>
+  <div class="footer-note">
+    As an Amazon Associate I earn from qualifying purchases.<br>
+    <a href="https://pinterest.com/cozyoutdoorhome" target="_blank">@cozyoutdoorhome</a> &middot; Updated weekly &#127807;
+  </div>
+</footer>
+</div>
+</body>
+</html>
